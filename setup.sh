@@ -6,7 +6,6 @@
 
 # This will allow you to choose between 2 install modes. First, the 'dev' mode which is recommended only for developpers or if you have the necessary knowledge to install manually apXtri. The second mode is the 'prod' mode is the default mode to use apXtri and for every normal user.
 
-
 echo "Welcome to the setup of apXtri ! Thanks you to have choosen us !"
 sleep 2
 echo "Now, you will choose if you want to install apXtri in dev mode or in prod mode."
@@ -36,18 +35,6 @@ case "$mode" in
         echo "Your tribe is $TRIBE"
         echo "Verification of existing tribe..."
         sleep 2
-
-
-
-
-
-        
-
-
-
-
-
-
         #echo "Installation de caddy..."
         #wait 1
 
@@ -62,9 +49,6 @@ case "$mode" in
         #sudo find $DATA_PATH -type d -name "wwws" -exec setfacl -R -m u:caddy:rx {} \;
         #sudo apt install libnss3-tools
         #sudo caddy trust
-
-
-    
 
         sleep 2
         ;;
@@ -86,11 +70,6 @@ case "$mode" in
         echo "Your tribe is $TRIBE"
         echo "Verification of existing tribe..."
         sleep 2
-
-
-
-
-
 
         #echo "Installation de caddy..."
         #wait 1
