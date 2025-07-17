@@ -11,8 +11,8 @@ REPO_OBJECTS="https://gitea.ndda.fr/apxtri/objects.git"
 DATAPATH="/var/lib/apxtowns"
 NODEPATH="/opt/apxtowns"
 LOGPATH="/var/log/apxtowns"
-NATION="farm"
-TOWN="ants"
+NATION="ants"
+TOWN="farm"
 APP_DIR="$NODEPATH/$TOWN"
 
 
@@ -107,7 +107,7 @@ sudo apt install -y caddy
 
 cd apxtri
 echo "Launch..."
-yarn apxtri
+yarn dev
 
 echo "Install complete...."
 
