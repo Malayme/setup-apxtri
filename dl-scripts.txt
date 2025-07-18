@@ -1,4 +1,6 @@
 wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/setup3-0.sh
 wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/rename-town-nation.sh
+wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/docker-setup.sh
+wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/ubuntu-setup.sh
 
 cufdom-myxbet-Sofha7
