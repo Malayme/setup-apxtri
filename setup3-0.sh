@@ -42,11 +42,11 @@ corepack prepare yarn@4.9.1 --activate
 yarn --version
 
 # Add an user
-$ sudo useradd -s /bin/bash -m -d /home/{apxtri} -c "{apxtri}" {apxtri}
-$ sudo passwd {apxtri}
-$ sudo usermod -aG sudo {apxtri} #user apxtri en mode sudo ?
+sudo useradd -s /bin/bash -m -d /home/apxtri -c "apxtri" apxtri
+sudo passwd apxtri
+sudo usermod -aG sudo apxtri #user apxtri en mode sudo ?
 # Switch to the new user:
-$ su {apxtri}
+su apxtri
 
 #while true; do
  #   echo "Enter the name of your tribe..."
