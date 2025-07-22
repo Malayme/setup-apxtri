@@ -13,7 +13,7 @@ echo "Welcome to the setup of apXtri ! Thanks you to have chosen us!"
 sleep 1
 echo "Starting up the installation..."
 
-# Mise à jour et installation outils nécessaires (sans sudo)
+# Update and useful tools
 apt update && apt install -y curl git
 
 echo "Install NVM..."
@@ -22,7 +22,7 @@ export NVM_VERSION="v0.39.7"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
 
 export NVM_DIR="$HOME/.nvm"
-# Charge NVM dans ce shell
+# Load NVM in this shell
 source "$NVM_DIR/nvm.sh"
 
 echo "Install Node.js..."
@@ -35,7 +35,7 @@ corepack enable
 corepack prepare yarn@4.9.1 --activate
 yarn --version
 
-# Création des dossiers nécessaires
+# Create necessaries reposetories
 mkdir -p "$APP_DIR"
 mkdir -p "$DATAPATH"
 mkdir -p "$LOGPATH"

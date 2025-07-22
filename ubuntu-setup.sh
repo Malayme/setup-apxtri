@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Script d'installation d'apXtri sur Ubuntu Serveur ou Desktop
-# Ce script utilise sudo et crée un utilisateur 'apxtri' pour exécuter l'application
-# Assure toi d'avoir un utilisateur avec droits sudo pour exécuter ce script.
+# This file is used to install or your device apXtri.
+# You will find more informations at [url]
+# This setup respects the Linux architecture and will automatically install all the necessary tools for the proper functioning of apXtri.
 
-set -e  # arrêter le script en cas d'erreur
+set -e  # stop the script if error
 
 REPO_APXTRI="https://gitea.ndda.fr/apxtri/apxtri.git"
 REPO_OBJECTS="https://gitea.ndda.fr/apxtri/objects.git"
@@ -20,11 +20,11 @@ echo "Welcome to the setup of apXtri ! Thank you for choosing us!"
 sleep 1
 echo "Starting up the installation..."
 
-# Mise à jour et installation outils nécessaires
+# Update and useful tools
 sudo apt update
 sudo apt install -y curl git build-essential
 
-# Création de l'utilisateur apxtri (si pas existant)
+# Create user apxtri if not existing
 if id "$APXTRI_USER" &>/dev/null; then
     echo "User $APXTRI_USER already exists."
 else
@@ -35,7 +35,7 @@ else
     sudo usermod -aG sudo "$APXTRI_USER"
 fi
 
-# Création des dossiers nécessaires avec droits adaptés
+# Create necessaries reposetories and apply good permissions
 sudo mkdir -p "$APP_DIR"
 sudo mkdir -p "$DATAPATH"
 sudo mkdir -p "$LOGPATH"
@@ -43,13 +43,13 @@ sudo chown -R "$APXTRI_USER":"$APXTRI_USER" "$NODEPATH"
 sudo chown -R "$APXTRI_USER":"$APXTRI_USER" "$DATAPATH"
 sudo chown -R "$APXTRI_USER":"$APXTRI_USER" "$LOGPATH"
 
-echo "Switching to user $APXTRI_USER for node and git setup..."
+echo "Switch user to $APXTRI_USER for install packages..."
 
 sudo -i -u "$APXTRI_USER" bash << EOF
 
 set -e
 
-# Installation de NVM (Node Version Manager)
+# Install NVM
 export NVM_VERSION="v0.39.7"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/\$NVM_VERSION/install.sh | bash
 
@@ -61,7 +61,7 @@ nvm install --lts
 nvm use --lts
 nvm alias default 'lts/*'
 
-echo "Install Yarn via Corepack..."
+echo "Install Yarn..."
 corepack enable
 corepack prepare yarn@4.9.1 --activate
 yarn --version
