@@ -38,3 +38,4 @@ echo "Utilisateur $APXTRI_USER créé avec succès et a les droits sudo."
 # Script terminé
 echo "Installation et configuration terminées !"
 
+sudo su $APXTRI_USER
