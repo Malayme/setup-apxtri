@@ -8,12 +8,12 @@ set -e  # stop the script if error
 
 REPO_APXTRI="https://gitea.ndda.fr/apxtri/apxtri.git"
 REPO_OBJECTS="https://gitea.ndda.fr/apxtri/objects.git"
-DATAPATH="/var/lib/apxtowns"
+DATAPATH="/var/lib/apxtowns" 
 NODEPATH="/opt/apxtowns"
 LOGPATH="/var/log/apxtowns"
 NATION="ants"
 TOWN="farm"
-APP_DIR="$NODEPATH/$TOWN"
+APP_DIR="$NODEPATH/$NATION-$TOWN"
 APXTRI_USER="apxtri"
 
 echo "Welcome to the setup of apXtri ! Thank you for choosing us!"
@@ -69,9 +69,11 @@ yarn --version
 echo "Cloning apXtri into $APP_DIR..."
 git clone $REPO_APXTRI "$APP_DIR"
 
-echo "Cloning objects into $APP_DIR/data/objects..."
-mkdir -p "$APP_DIR/data"
-git clone $REPO_OBJECTS "$APP_DIR/data/objects"
+echo "Cloning objects into $DATAPATH/data/objects..."
+mkdir -p "$DATAPATH/data"
+git clone $REPO_OBJECTS "$DATA_PATH/data/objects"
+echo "Creating useful repos..."
+mkdir -p "$DATAPATH/data/logs"
 
 echo "Installing dependencies with Yarn..."
 cd "$APP_DIR"
@@ -97,6 +99,40 @@ EOL
 
 EOF
 
+# Check if Caddy exist
+echo "Checking if Caddy is already running..."
+if pgrep -x caddy > /dev/null; then
+    echo "Caddy appears to be running."
+
+    existing_routes=$(curl -s http://localhost:2019/config/ | jq -r '.apps.http.servers | keys[]?' 2>/dev/null)
+
+    if [ -n "$existing_routes" ] && [ "$existing_routes" != "srv0" ]; then
+        echo "Caddy is configured with non-default routes: $existing_routes"
+        read -p "Do you want to overwrite the current Caddy configuration? [y/N]: " confirm
+        if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+            echo "Installation aborted to preserve existing Caddy setup."
+            exit 1
+        fi
+    else
+        echo "Caddy is running but appears to use the default config."
+    fi
+fi
+
+# Check default ports in 
+echo "Check if default ports are already in use..."
+PORTS=(3021 3031)
+for PORT in "${PORTS[@]}"; do
+    if ss -tuln | grep -q ":$PORT "; then
+        echo "Port $PORT is already in use. This may conflict with apXtri."
+        read -p "Do you want to continue and risk overwriting services on port $PORT? [y/N]: " port_confirm
+        if [[ "$port_confirm" != "y" && "$port_confirm" != "Y" ]]; then
+            echo "Installation aborted to avoid port conflict."
+            exit 1
+        fi
+    fi
+done
+
+
 echo "Installing Caddy web server..."
 
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl jq
@@ -104,6 +140,14 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /et
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy.list
 sudo apt update
 sudo apt install -y caddy
+
+# Add admin.apxtri domain to /etc/hosts
+if ! grep -q "admin.apxtri.farm.ants" /etc/hosts; then
+    echo "127.0.0.1    admin.apxtri.farm.ants" | sudo tee -a /etc/hosts
+else
+    echo "admin.apxtri already present in /etc/hosts"
+fi
+
 
 echo "Launching apXtri as $APXTRI_USER..."
 
