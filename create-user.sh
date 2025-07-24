@@ -39,3 +39,4 @@ echo "Utilisateur $APXTRI_USER créé avec succès et a les droits sudo."
 echo "Installation et configuration terminées !"
 
 sudo su $APXTRI_USER
+cd /home/apxtri
