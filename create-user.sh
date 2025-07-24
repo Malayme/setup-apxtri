@@ -1,42 +1,40 @@
 #!/bin/bash
 
-# Variables
+# Définir le nom de l'utilisateur
 APXTRI_USER="apxtri"
 
-# Créer l'utilisateur avec un répertoire home et un shell bash
-echo "Création de l'utilisateur $APXTRI_USER..."
-sudo useradd -m -s /bin/bash "$APXTRI_USER"
+# Vérifier si l'utilisateur existe déjà
+if id "$APXTRI_USER" &>/dev/null; then
+    echo "L'utilisateur $APXTRI_USER existe déjà."
+else
+    # Créer l'utilisateur apxtri
+    echo "Création de l'utilisateur $APXTRI_USER..."
+    sudo useradd -m -s /bin/bash "$APXTRI_USER"
+    echo "Définir un mot de passe pour $APXTRI_USER :"
+    sudo passwd "$APXTRI_USER"
+fi
 
-# Définir un mot de passe pour l'utilisateur (modifiable selon le besoin)
-echo "Définir le mot de passe pour $APXTRI_USER :"
-sudo passwd "$APXTRI_USER"
-
-# Ajouter l'utilisateur au groupe sudo pour lui donner des privilèges administratifs
-echo "Ajout de $APXTRI_USER au groupe sudo..."
+# Ajouter l'utilisateur apxtri au groupe sudo
+echo "Ajout de l'utilisateur $APXTRI_USER au groupe sudo..."
 sudo usermod -aG sudo "$APXTRI_USER"
 
-# Vérifier que l'utilisateur est bien ajouté au groupe sudo
-if id "$APXTRI_USER" | grep -q 'sudo'; then
+# Vérifier si l'utilisateur a été ajouté au groupe sudo
+if id -nG "$APXTRI_USER" | grep -qw "sudo"; then
     echo "$APXTRI_USER a été ajouté au groupe sudo avec succès."
 else
-    echo "Erreur : $APXTRI_USER n'a pas été ajouté au groupe sudo."
+    echo "Échec de l'ajout de $APXTRI_USER au groupe sudo."
     exit 1
 fi
 
-# Vérifier que l'utilisateur a bien un répertoire home et les bonnes permissions
-echo "Vérification des permissions sur le répertoire home de $APXTRI_USER..."
-sudo chown -R "$APXTRI_USER":"$APXTRI_USER" /home/"$APXTRI_USER"
-sudo chmod 755 /home/"$APXTRI_USER"
+# Ajouter l'utilisateur au fichier sudoers pour pouvoir utiliser sudo sans mot de passe (optionnel)
+echo "Ajout de $APXTRI_USER au fichier sudoers pour permettre l'utilisation de sudo sans mot de passe..."
+echo "$APXTRI_USER  ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
-# Vérification de la création de l'utilisateur et de ses droits sudo
-echo "Vérification de la création de l'utilisateur $APXTRI_USER..."
-sudo su - "$APXTRI_USER" -c "echo 'User $APXTRI_USER created and sudo access granted!'"
+# Vérifier que l'utilisateur apxtri peut utiliser sudo
+echo "Vérification de l'accès sudo pour $APXTRI_USER..."
+sudo -u "$APXTRI_USER" sudo -l
 
-# Confirmation
-echo "Utilisateur $APXTRI_USER créé avec succès et a les droits sudo."
-
-# Script terminé
-echo "Installation et configuration terminées !"
+echo "Utilisateur $APXTRI_USER créé et configuré avec les droits sudo."
 
 sudo su $APXTRI_USER
 cd /home/apxtri
