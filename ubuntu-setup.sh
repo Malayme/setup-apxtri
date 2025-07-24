@@ -70,10 +70,10 @@ echo "Cloning apXtri into $APP_DIR..."
 git clone $REPO_APXTRI "$APP_DIR"
 
 echo "Cloning objects into $DATAPATH/data/objects..."
-mkdir -p "$DATAPATH/data"
+sudo mkdir -p "$DATAPATH/data"
 git clone $REPO_OBJECTS "$DATA_PATH/data/objects"
 echo "Creating useful repos..."
-mkdir -p "$DATAPATH/data/logs"
+sudo mkdir -p "$DATAPATH/data/logs"
 
 echo "Installing dependencies with Yarn..."
 cd "$APP_DIR"
