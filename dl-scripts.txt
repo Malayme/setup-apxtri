@@ -3,5 +3,5 @@ wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/rena
 wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/docker-setup.sh
 wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/ubuntu-setup.sh
 apt install wget && wget https://gitea.ndda.fr/apxtri/apxtri/raw/branch/main/setup/apxsetup.sh && chmod +x apxsetup.sh && ./apxsetup.sh
-apt install wget && wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/create-user.sh && chmod +x create-user.sh && ./create-user.sh
+apt install wget -y && wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/create-user.sh && chmod +x create-user.sh && ./create-user.sh
 wget https://raw.githubusercontent.com/Malayme/setup-apxtri/refs/heads/main/install.sh && chmod +x install.sh && ./install.sh
