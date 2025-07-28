@@ -36,4 +36,5 @@ sudo -u "$APXTRI_USER" sudo -l
 
 echo "Utilisateur $APXTRI_USER créé et configuré avec les droits sudo."
 
+cd /home/$APXTRI_USER
 sudo su $APXTRI_USER
