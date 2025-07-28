@@ -76,8 +76,8 @@ else
   echo "admin.apxtri already present in /etc/hosts"
 fi
 
-echo "Cloning objects into $DATAPATH/data/objects..."
-mkdir -p "$DATAPATH/data"
+echo "Cloning objects into $DATAPATH/data/apxtri/objects..."
+mkdir -p "$DATAPATH/data/apxtri"
 cd $DATAPATH/data
 git clone $REPO_OBJECTS
 
@@ -115,7 +115,7 @@ npm -v
 echo "Installing Yarn..."
 npm install -g corepack
 corepack enable
-corepack prepare yarn@stable --activate
+yes | corepack prepare yarn@stable --activate
 yarn --version
 
 echo "Installing dependencies with Yarn..."
